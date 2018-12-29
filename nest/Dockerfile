@@ -1,18 +1,22 @@
-FROM registry.fedoraproject.org/fedora:$DISTTAG
+FROM registry.fedoraproject.org/fedora:29
 
-ENV name=nest VERSION=0
+ENV name=nest VERSION=0 NEST_VERSION=2.16.0
 
 LABEL   com.redhat.component="$NAME" \
         name="$FGC/$NAME" \
         version="$VERSION" \
-        usage="docker run f25/$NAME" \
-        summary="NEST simulator container for $DISTTAG" \
+        usage="docker run f29/$NAME" \
+        summary="NEST simulator $NEST_VERSION" \
+        description="NEST simulator $NEST_VERSION" \
         maintainer="Ankur Sinha <ankursinha AT fedoraproject DOT org>" \
         url="http://docs.fedoraproject.org/neurofedora"
 
-RUN INSTALL_PKGS="python3 nest python3-nest nest-doc ipython3" && \
+RUN INSTALL_PKGS="nest python3-nest nest-doc" && \
     dnf install -y $INSTALL_PKGS && \
     rpm -V $INSTALL_PKGS && \
     dnf clean all
 
-CMD python3 -c 'import nest'
+# Will this work?
+RUN source /usr/bin/nest_vars.sh
+
+CMD "echo 'quit' | nest"
