@@ -11,8 +11,8 @@ LABEL   com.redhat.component="$NAME" \
         maintainer="Ankur Sinha <ankursinha AT fedoraproject DOT org>" \
         url="http://docs.fedoraproject.org/neurofedora"
 
-RUN INSTALL_PKGS="nest python3-nest nest-doc" && \
-    dnf install -y $INSTALL_PKGS && \
+RUN INSTALL_PKGS="nest python3-nest" && \
+    dnf install --setopt=install_weak_deps=False -y $INSTALL_PKGS && \
     rpm -V $INSTALL_PKGS && \
     dnf clean all
 
